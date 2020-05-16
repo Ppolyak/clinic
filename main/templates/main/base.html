@@ -1,0 +1,82 @@
+﻿{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/css?family=Dosis|Open+Sans" rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link href="{% static 'js/air-datepicker/dist/css/datepicker.min.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'js/air-datepicker/dist/js/datepicker.min.js' %}"></script>
+	<script src="{% static 'js/air-datepicker/dist/js/i18n/datepicker.en.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+	<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'>
+	
+	{% block links %}{% endblock %}
+</head>
+<body>
+	<header>
+		<div class="topnav">
+			<div class="logo">
+				<a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}"></a>
+			</div>
+			<div class="toolbar">
+				<nav>
+					<ul class="links">
+						{% if user.is_authenticated %}
+							{% if user.client %}
+								<li><a href="{% url 'profile' %}">{{user.client.get_fullname}}</a></li>
+							{% elif user.doctor %}
+								<li><a href="{% url 'profile' %}">{{user.doctor.get_fullname}}</a></li>
+							{% endif %}
+							<li><a href="{% url 'logout' %}">Logout</a></li>
+						{% else %}
+							<li><a href="{% url 'register' %}">Register</a></li>
+							<li><a href="{% url 'login' %}">Login</a></li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<aside class="sidebar">
+		<nav>
+			<ul class="links">
+				<li><a href="{% url 'profile' %}">My Profile</a></li>
+				<li><a href="#">Messages</a></li>
+				<li><a href="{% url 'doctors' %}">Doctors</a></li>
+				<li><a href="#">Diagnostic</a></li>
+				<li><a href="{% url 'departments' %}">Departments</a></li>
+				<li><a href="#">News</a></li>
+				<li><a href="#">About</a></li>
+			</ul>
+		</nav>
+	</aside>
+	<main>
+		{% if messages %}
+		<div class="messages">
+			{% for message in messages %}
+				<div class="alert alert-{{message.tags}}">{{message}}</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+		{% block main %}
+		{% endblock %}
+	</main>
+	<footer>
+		<div class="footer-info">
+			<p></p>
+		</div>
+		<div class="social">
+			<a href="#"><img src="{% static 'img/social/facebook.png' %}"></a>
+			<a href="#"><img src="{% static 'img/social/twitter.png' %}"></a>
+			<a href="#"><img src="{% static 'img/social/instagram.png' %}"></a>
+			<a href="#"><img src="{% static 'img/social/pinterest.png' %}"></a>
+			<a href="#"><img src="{% static 'img/social/tumblr.png' %}"></a>
+		</div>
+	</footer>
+</body>
+</html>

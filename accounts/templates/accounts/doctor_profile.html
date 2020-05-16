@@ -1,0 +1,182 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}My account{% endblock %}
+
+{% block main %}
+	<div class="wrapper">
+		<div class="profile">
+			<div class="profile-actionsbar">
+				<div class="profile-avatar">
+					{% if profile.gender == 'F' %}
+						<img src="{% static 'img/female_doctor128.png' %}">
+					{% elif profile.gender == 'M' %}
+						<img src="{% static 'img/male_doctor128.png' %}">
+					{% endif %}
+				</div>
+			</div>
+			<div class="profile-info">
+				<div class="profile-field">
+					<div class="profile-field-label">Name:</div>
+					<span>{{profile.get_fullname}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Email:</div>
+					<span>{{profile.email}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Birth date:</div>
+					<span>{{profile.birth_date}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Phone:</div>
+					<span>{{profile.phone_number}}</span>
+				</div>
+			</div>
+			<div class="profile-info">
+				<div class="profile-field">
+					<div class="profile-field-label">Department:</div>
+					<a href="{% url 'department_details' pk=profile.department.pk %}">< {{profile.department}} ></a>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Schedule:</div>
+					<span>{{profile.schedule}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Working position:</div>
+					<span>{{profile.working_position}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Experience:</div>
+					<span>{{profile.experience}} years.</span>
+				</div>
+			</div>
+		</div>
+		<div class="clients-wrap wrap">
+			<div class="wrap-header">
+				<h3>Your Clients</h3>
+			</div>
+			<div>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+				</p>
+			</div>
+			<div class="clients-list">
+				{% if not clients %}
+					<div class="no-tickets"><span>No Clients</span></div>
+				{% endif %}
+				{% for client in clients %}
+					<div class="client">
+						<div class="profile-avatar">
+							{% if client.gender == 'F' %}
+								<img src="{% static 'img/female_client64.png' %}">
+							{% elif client.gender == 'M' %}
+								<img src="{% static 'img/male_client64.png' %}">
+							{% endif %}
+						</div>
+						<div class="client-info">
+							<a href="#"><span>{{client.get_fullname}}</span></a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="requests-wrap wrap">
+			<div class="wrap-header">
+				<h3>Your Requests</h3>
+			</div>
+			<div>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+				</p>
+			</div>
+			<div class="requests-list">
+				{% if not requests %}
+					<div class="no-tickets"><span>No Requests</span></div>
+				{% endif %}
+				{% for request in requests %}
+					<div class="request">
+						<div class="request-avatar">
+							{% if request.client_from.gender == 'F' %}
+								<img src="{% static 'img/female_client64.png' %}">
+							{% elif request.client_from.gender == 'M' %}
+								<img src="{% static 'img/male_client64.png' %}">
+							{% endif %}
+							<div class="plus-img"><img src="{% static 'img/plus.png' %}"></div>
+						</div>
+						<strong>{{request.client_from.get_fullname}}</strong>
+						{% if request.status == 'Waiting' %}
+							<strong style="color: gray">{{request.status}}</strong>
+						{% elif request.status == 'Approved' %}
+							<strong style="color: green">{{request.status}}</strong>
+						{% elif request.status == 'Approved' %}
+							<strong style="color: red">{{request.status}}</strong>
+						{% endif %}
+						{% if request.status == 'Waiting' %}
+						<div class="request-actionbar">
+							<a href="#" id="request-approve-btn"><div class="btn-success btn">Approve</div></a>
+							<a href="#" id="request-decline-btn"><div class="btn-error btn">Decline</div></a>
+						</div>
+						{% endif %}
+						<input type="text" name="request_id" id="request_id" value={{request.id}} hidden>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="tickets-wrap wrap">
+			<div class="wrap-header">
+				<h3>Your Tickets</h3>
+			</div>
+			<div>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+				</p>
+			</div>
+			<div class="tickets-list">
+				{% if not tickets %}
+					<div class="no-tickets"><span>No Tickets</span></div>
+				{% endif %}
+				{% for ticket in tickets %}
+					<div class="ticket">
+						<img src="{% static 'img/schedule32.png' %}">
+						<strong>{{ticket.client_from.get_fullname}}</strong>
+						<p>{{ticket.date}}</p>
+						<p>{{ticket.time}}</p>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).on('click', '#request-approve-btn', function() {
+			var request_id = $('#request_id').val();
+
+			$.ajaxSetup({
+				url: ''
+			});
+
+			$.ajax({
+				url: '/ajax/approve_request',
+				data: {
+					'request_id': request_id
+				},
+				dataType: 'json',
+				success: function(data) {
+					Swal.fire({
+					  title: 'Success!',
+					  text: 'You approved request.',
+					  type: 'success',
+					  showConfirmButton: false,
+					  timer: 2000
+					})
+				},
+				error: function(data) {
+					Swal.fire({
+						title: 'Error!',
+						html: '<strong id="error-message">' + data.responseJSON.message + '</strong>',
+						type: 'error',
+						confirmButtonText: 'Ok'
+					})
+				}
+			});
+		});
+	</script>
+{% endblock %}

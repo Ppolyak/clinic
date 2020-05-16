@@ -1,0 +1,275 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	font-family: 'Dosis';
+}
+
+main {
+	width: 100%;
+	min-height: 120vh;
+	background-color: #efeeee;
+}
+
+header {
+	height: 70px;
+	background: #bf0000;
+	border-bottom: 2px solid black;
+}
+
+footer {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	height: 60px;
+	background: #bf0000;
+	border-top: 2px solid black;
+}
+
+a, a:hover {
+	text-decoration: none;
+	color: #fff;
+}
+
+ul {
+	list-style-type: none;
+}
+
+ul a:hover {
+	border-bottom: 2px solid #fff;
+}
+
+ul.links li {
+	list-style-type: none;
+	font-size: 1.8rem;
+	margin: 0 8px;
+	padding-left: 0;
+	margin-left: 0;
+	display: inline;
+}
+
+fieldset {
+	margin: 10px;
+	border: 0px solid transparent;
+}
+
+legend {
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+input, select, option {
+	height: 32px;
+	border: 0px solid transparent;
+	font-size: 14pt;
+}
+
+input:focus {
+	outline: 0px solid transparent;
+}
+
+aside.sidebar {
+	background-color: transparent;
+	width: 15%;
+	float: left;
+	border-right: 2px dashed #bf0000;
+}
+
+.social a {
+	margin: 0 5px;
+}
+
+.footer-info {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 50%;
+	text-align: center;
+	font-size: 18px;
+	color: #fff;
+}
+
+.sidebar nav {
+	padding: 20px 20px 20px 10px;
+}
+
+.sidebar ul li {
+	display: block;
+	text-align: right;
+	margin: 10px 0;
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.sidebar ul li a {
+	color: #bf0000;
+}
+
+.sidebar ul li a:hover {
+	color: #bf0000;
+	text-decoration: none;
+}
+
+.sidebar ul li:hover {
+	border-left: 3px solid #bf0000;
+}
+
+.messages {
+	display: flow-root;
+	width: 60%;
+	margin: auto;
+	text-align: center;
+	background-color: #efeeee;
+	padding-top: 0.5rem;
+}
+
+.btn {
+	border-radius: 5px;
+	text-align: center;
+}
+
+.btn:hover {
+	opacity: 0.7;
+	border: 1px solid #666;
+}
+
+.btn-success {
+	border: 1px solid #d3d9de;
+	background-color: #28a745;
+}
+
+.btn-error {
+	border: 1px solid #d3d9de;
+	background-color: red;
+}
+
+.alert {
+	padding: .75rem 1.25rem;
+	border: 1px solid transparent;
+	border-radius: .25rem;
+}
+
+.alert-success {
+	color: #155724;
+	background-color: #d4edda;
+	border-color: #c3e6cb;
+}
+
+.alert-error {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+}
+
+.topnav {
+	height: 100%;
+	margin: 0 20px;
+}
+
+.toolbar {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	float: right;
+}
+
+.logo {
+	display: inline-flex;
+	height: 100%;
+	width: 8%;
+	align-items: center;
+	justify-content: center;
+}
+
+.logo a {
+	height: 48px;
+}
+
+.logo img {
+	height: 48px;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+}
+
+.column {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.wrap {
+	padding: 10px 15px;
+}
+
+.wrap {
+	width: 100%;
+	margin-top: 20px;
+	background-color: #fff;
+	border: 2px solid #d3d9de;
+	border-radius: 5px;
+}
+
+.wrap-header {
+	padding: 10px 0;
+}
+
+.wrap-header a {
+	color: black;
+}
+
+.tickets-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding: 20px;
+}
+
+.ticket {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 10%;
+	margin: 15px 20px;
+}
+
+.request {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 15px 20px;
+	width: 15%;
+}
+
+.request-avatar {
+	position: relative;
+}
+
+.plus-img {
+	position: absolute;
+	right: -5px;
+	bottom: -5px;
+}
+
+.ticket img {
+	margin-bottom: 5px;
+}
+
+#error-message {
+	color: red;
+}
+
+#swal2-content {
+	margin: 10px 0;
+}

@@ -1,0 +1,32 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Update profile{% endblock %}
+
+{% block main %}
+	<div class="wrapper">
+		<div class="column">
+			<div class="form login-form">
+				<form action="{% url 'update' %}" method="post">
+					{% csrf_token %}
+					<fieldset>
+						{% for field in client_form %}
+							<div class="field">
+								<label>{{field.label}}</label>
+								{{field}}
+								{% if field.errors %}
+									<div class="form-info">
+										<label class="error">{{ field.errors }}</label>
+									</div>
+								{% endif %}
+							</div>
+						{% endfor %}
+					</fieldset>
+					<div class="actionbar">
+						<button type="submit">Update</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

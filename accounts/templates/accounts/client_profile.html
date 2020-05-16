@@ -1,0 +1,91 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}My account{% endblock %}
+
+{% block main %}
+	<div class="wrapper">
+		<div class="profile client-profile">
+			<div class="profile-actionsbar">
+				<div class="profile-avatar">
+					{% if profile.gender == 'F' %}
+						<img src="{% static 'img/female_client128.png' %}">
+					{% elif profile.gender == 'M' %}
+						<img src="{% static 'img/male_client128.png' %}">
+					{% endif %}
+				</div>
+				<a href="{% url 'update' %}"><div class="btn-success btn">Edit Profile</div></a>
+			</div>
+			<div class="profile-info">
+				<div class="profile-field">
+					<div class="profile-field-label">Name:</div>
+					<span>{{profile.get_fullname}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Email:</div>
+					<span>{{profile.email}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Birth date:</div>
+					<span>{{profile.birth_date}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Phone:</div>
+					<span>{{profile.phone_number}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="doctors-wrap wrap">
+			<div class="wrap-header">
+				<h3>Your Doctors</h3>
+			</div>
+			<div>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+				</p>
+			</div>
+			<div class="doctors-list">
+				{% if not doctors %}
+					<div class="no-tickets"><span>No Doctors</span></div>
+				{% endif %}
+				{% for doctor in doctors %}
+				<a href="{% url 'doctor' id=doctor.pk %}">
+					<div class="doctor">
+						<div class="profile-avatar">
+							{% if doctor.gender == 'F' %}
+								<img src="{% static 'img/female_doctor64.png' %}">
+							{% elif doctor.gender == 'M' %}
+								<img src="{% static 'img/male_doctor64.png' %}">
+							{% endif %}
+						</div>
+						<div class="doctor-info">
+							<span>{{doctor.get_fullname}}</span>
+						</div>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="tickets-wrap wrap">
+			<div class="wrap-header">
+				<h3>Your Tickets</h3>
+			</div>
+			<div>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+				</p>
+			</div>
+			<div class="tickets-list">
+				{% if not tickets %}
+					<div class="no-tickets"><span>No Tickets</span></div>
+				{% endif %}
+				{% for ticket in tickets %}
+					<div class="ticket">
+						<img src="{% static 'img/schedule32.png' %}">
+						<strong>{{ticket.doctor_to.get_fullname}}</strong>
+						<p>{{ticket.date}}</p>
+						<p>{{ticket.time}}</p>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

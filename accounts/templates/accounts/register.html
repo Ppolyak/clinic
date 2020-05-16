@@ -1,0 +1,49 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+	<div class="wrapper">
+		<div class="column">
+			<div class="form register-form">
+				<form action="{% url 'register' %}" method="post">
+					{% csrf_token %}
+					<div class="registration-fieldsets">
+						<fieldset>
+							<legend>User information</legend>
+							{% for field in user_form %}
+								<div class="field">
+									<label>{{field.label}}</label>
+									{{field}}
+									{% if field.errors %}
+										<div class="form-info">
+											<label class="error">{{ field.errors }}</label>
+										</div>
+									{% endif %}
+								</div>
+							{% endfor %}
+						</fieldset>
+						<fieldset>
+							<legend>Client information</legend>
+							{% for field in client_form %}
+								<div class="field">
+									<label>{{field.label}}</label>
+									{{field}}
+									{% if field.errors %}
+										<div class="form-info">
+											<label class="error">{{ field.errors }}</label>
+										</div>
+									{% endif %}
+								</div>
+							{% endfor %}
+						</fieldset>
+					</div>
+					<div class="actionbar">
+						<button type="submit">Register</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

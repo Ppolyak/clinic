@@ -1,0 +1,29 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block main %}
+	<div class="wrapper">
+		<div class="column">
+			<div class="form login-form">
+				<form action="{% url 'login' %}" method="post">
+					{% csrf_token %}
+					<fieldset>
+						<div class="field">
+							<label for="username">Username</label>
+							<input type="text" name="username">
+						</div>
+						<div class="field">
+							<label for="password">Password</label>
+							<input type="password" name="password">
+						</div>
+					</fieldset>
+					<div class="actionbar">
+						<button type="submit">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

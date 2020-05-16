@@ -1,0 +1,255 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}{{doctor.get_fullname}}{% endblock %}
+
+{% block main %}
+	<div class="wrapper">
+		<div class="profile">
+			<div class="profile-actionsbar">
+				<div class="profile-avatar">
+					{% if doctor.gender == 'F' %}
+						<img src="{% static 'img/female_doctor128.png' %}">
+					{% elif doctor.gender == 'M' %}
+						<img src="{% static 'img/male_doctor128.png' %}">
+					{% endif %}
+				</div>
+				{% if client_request %}
+					{% if client_request.status == 'Waiting' %}
+						<span class="request-status">Request sent</span>
+					{% elif client_request.status == 'Approved' %}
+						<span class="request-status">Docror added</span>
+					{% endif %}
+				{% else %}
+					{% if is_added_doctor %}
+						<span class="request-status">Docror added</span>
+					{% else %}				
+						<a href="#"><div class="btn-success btn" id="send-request-btn">Add Doctor</div></a>
+					{% endif %}
+				{% endif %}
+			</div>
+			<div class="profile-info">
+				<div class="profile-field">
+					<div class="profile-field-label">Name:</div>
+					<span>{{doctor.get_fullname}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Email:</div>
+					<span>{{doctor.email}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Birth date:</div>
+					<span>{{doctor.birth_date}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Phone:</div>
+					<span>{{doctor.phone_number}}</span>
+				</div>
+			</div>
+			<div class="profile-info">
+				<div class="profile-field">
+					<div class="profile-field-label">Department:</div>
+					<a href="{% url 'department_details' pk=doctor.department.pk %}">< {{doctor.department}} ></a>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Schedule:</div>
+					<span>{{doctor.schedule}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Working position:</div>
+					<span>{{doctor.working_position}}</span>
+				</div>
+				<div class="profile-field">
+					<div class="profile-field-label">Experience:</div>
+					<span>{{doctor.experience}} years.</span>
+				</div>
+			</div>
+		</div>
+		<div class="ticket-wrap wrap">
+			<div id="schedule" data-language='en'></div>
+			<div id="schedule-events">
+				<strong></strong>
+				<p></p>
+			</div>
+			<div class="ticket-actionbar">
+				<img src="{% static 'img/schedule.png' %}" class="img-schedule">
+				<input type="text" name="date" id="date" readonly>
+				<input type="text" name="time" id="time" readonly>
+				<a href="#"><div class="btn-success btn" id="order-ticket-btn">Order Ticket</div></a>
+			</div>
+		</div>
+		<div class="tickets-wrap wrap">
+			<div class="wrap-header">
+				<h3>Your Tickets to this Doctor</h3>
+			</div>
+			<div>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+				</p>
+			</div>
+			<div class="tickets-list">
+				{% if not client_tickets %}
+					<div class="no-tickets"><span>No Tickets</span></div>
+				{% endif %}
+				{% for ticket in client_tickets %}
+					<div class="ticket">
+						<img src="{% static 'img/schedule32.png' %}">
+						<strong>{{ticket.doctor_to.get_fullname}}</strong>
+						<p>{{ticket.date}}</p>
+						<p>{{ticket.time}}</p>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).on('click', '#send-request-btn', function() {
+			var client_id = {{client.id}};
+			var doctor_id = {{doctor.id}};
+
+			$.ajaxSetup({
+				url: ''
+			});
+
+			$.ajax({
+				url: '/ajax/send_request',
+				data: {
+					'client_id': client_id,
+					'doctor_id': doctor_id
+				},
+				dataType: 'json',
+				success: function(data) {
+					swal({
+					  title: 'Success!',
+					  text: 'You send request for doctor successfully.',
+					  type: 'success',
+					  showConfirmButton: false,
+					  timer: 2000
+					})
+				},
+				error: function(data) {
+					swal({
+						title: 'Error!',
+						html: '<strong id="error-message">' + data.responseJSON.message + '</strong>',
+						type: 'error',
+						confirmButtonText: 'Ok'
+					})
+				}
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		$(document).on('click', '#order-ticket-btn', function() {
+			var date = $('#date').val();
+			var time = $('#time').val();
+			var client_id = {{client.id}};
+			var doctor_id = {{doctor.id}};
+
+			$.ajaxSetup({
+				url: ''
+			});
+
+			$.ajax({
+				url: '/ajax/create_ticket',
+				data: {
+					'date': date,
+					'time': time,
+					'client_id': client_id,
+					'doctor_id': doctor_id
+				},
+				dataType: 'json',
+				success: function(data) {
+					swal({
+					  title: 'Success!',
+					  text: 'You ordered ticket successfully.',
+					  type: 'success',
+					  showConfirmButton: false,
+					  timer: 2000
+					})
+				},
+				error: function(data) {
+					swal({
+						title: 'Error!',
+						html: '<strong id="error-message">' + data.responseJSON.message + '</strong>',
+						type: 'error',
+						confirmButtonText: 'Ok'
+					})
+				}
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		$(document).on('click', '.trick', function(e) {
+  			$('#time').val($(e.target).text());
+		});
+
+		format = function date2str(x, y) {
+		    var z = {
+		        M: x.getMonth() + 1,
+		        d: x.getDate(),
+		        h: x.getHours(),
+		        m: x.getMinutes(),
+		        s: x.getSeconds()
+		    };
+		    y = y.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
+		        return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2)
+		    });
+
+		    return y.replace(/(y+)/g, function(v) {
+		        return x.getFullYear().toString().slice(-v.length)
+		    });
+		}
+
+		var availableTricks = {{time_intervals|safe}},
+			disabledDays = {{disabled_days}},
+		    $picker = $('#schedule'),
+		    $content = $('#schedule-events');
+		    $time = $('#time');
+
+		$picker.datepicker({
+		    language: 'en',
+		    firstDay: 1,
+		    minDate: new Date(),
+		    dateFormat: "yyyy-MM-dd",
+		    onRenderCell: function (date, cellType) {
+		        var currentDate = format(date, this.dateFormat);
+
+		        if (cellType == 'day') {
+		        	var day = date.getDay(),
+		        		isDisabled = disabledDays.indexOf(day) != -1;
+
+		        	return {
+		        		disabled: isDisabled
+		        	}
+		        }
+		    },
+		    onSelect: function onSelect(fd, date) {
+		        var title = '', content = '';
+		        // If date with event is selected, show it
+		        $content.empty();
+		        $time.val('');
+		        if (date) {
+			        date = format(date, this.dateFormat);
+			        if (availableTricks) {
+			            availableTricks.forEach(function(trick) {
+			            	content += '<div class="trick"><span>' + trick + '</span></div>';
+			            });
+			        } else {
+			        	content = '<div class="no-tickets"><span>NO TICKETS</span></div>';
+			        }
+			        //$('strong', $content).html(title)
+			        //$('p', $content).html(content)
+			        $content.append(content);
+			        var $input = $('#date'); 
+			        $input.val(date);
+		    	}
+		    }
+		})
+
+		// Select initial date from `eventDates`
+		var currentDate = currentDate = new Date();
+		$picker.data('datepicker').selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), 10))
+	</script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}{{department.name}} department{% endblock %}
+
+{% block main %}
+	<div class="wrapper">
+		<p>{{department.name}}</p>
+		<div class="doctors">
+			{% for doctor in doctors %}
+				{{doctor.get_fullname}}
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
